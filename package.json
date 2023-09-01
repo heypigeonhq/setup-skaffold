@@ -7,6 +7,7 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
+    "@vercel/ncc": "^0.36.1",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -15,6 +16,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
+    "build": "ncc build ./src/main.ts --minify --out ./dist/",
     "eslint:check": "eslint '**/*.{cjs,js,ts}'",
     "prettier:check": "prettier --check ."
   }
