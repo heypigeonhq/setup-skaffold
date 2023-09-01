@@ -41,24 +41,24 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - uses: actions/checkout@v3.6.0
+            - uses: actions/checkout@v3.6.0
 
-          - uses: actions/cache@v3.3.1
+            - uses: actions/cache@v3.3.1
 
-            with:
-                key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
+              with:
+                  key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
 
-                path: node_modules/
+                  path: node_modules/
 
-          - uses: actions/setup-node@v3.8.1
+            - uses: actions/setup-node@v3.8.1
 
-            with:
-                node-version: 20
+              with:
+                  node-version: 20
 
-          - name: Install dependencies
+            - name: Install dependencies
 
-            run: npm install
+              run: npm install
 
-          - name: Check format
+            - name: Check format
 
-            run: npm run prettier:check
+              run: npm run prettier:check
