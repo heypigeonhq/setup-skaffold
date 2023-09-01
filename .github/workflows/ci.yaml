@@ -1,0 +1,36 @@
+name: ci
+
+on:
+    - push
+
+jobs:
+    check-commit:
+        name: Check Commit
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3.6.0
+
+              with:
+                  fetch-depth: 0
+
+            - uses: actions/cache@v3.3.1
+
+              with:
+                  key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
+
+                  path: node_modules/
+
+            - uses: actions/setup-node@v3.8.1
+
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+
+              run: npm install
+
+            - name: Check commit
+
+              run: npx commitlint --from=HEAD~1 --to HEAD --verbose
