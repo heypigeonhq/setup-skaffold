@@ -1,0 +1,13 @@
+name: workflow
+
+on:
+    - push
+
+jobs:
+    setup-skaffold:
+        name: Setup Skaffold
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3.6.0
