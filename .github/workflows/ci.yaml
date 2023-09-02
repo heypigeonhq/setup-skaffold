@@ -91,6 +91,13 @@ jobs:
 
               run: npm test
 
+            - uses: actions/upload-artifact@v3.1.2
+
+              with:
+                  name: act.log
+
+                  path: ./act.log
+
     check-style:
         name: Check Style
 
