@@ -1,3 +1,8 @@
+branding:
+    color: gray-dark
+
+    icon: arrow-down
+
 description: Install Skaffold
 
 inputs:
