@@ -6,6 +6,8 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@jest/types": "^29.6.3",
+    "@kie/act-js": "^2.3.0",
+    "@kie/mock-github": "^2.0.0",
     "@types/jest": "^29.5.4",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
@@ -23,6 +25,6 @@
     "build": "ncc build ./src/main.ts --minify --out ./dist/",
     "eslint:check": "eslint '**/*.{cjs,js,ts}'",
     "prettier:check": "prettier --check .",
-    "test": "jest ./__tests__/**/*.test.ts"
+    "test": "npm run build && jest ./__tests__/*.test.ts"
   }
 }
