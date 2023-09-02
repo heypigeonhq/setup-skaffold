@@ -1,0 +1,16 @@
+description: Install Skaffold
+
+inputs:
+    version:
+        default: latest
+
+        description: Version of Skaffold
+
+        required: true
+
+name: Setup Skaffold
+
+runs:
+    main: dist/index.js
+
+    using: node20
