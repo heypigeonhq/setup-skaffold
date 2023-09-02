@@ -37,7 +37,11 @@ afterEach(async () => {
 test("it works", async () => {
   const act = new Act(github.repo.getPath("setupSkaffold"));
 
-  const result = await act.runEvent("push");
+  const result = await act.runEvent("push", { logFile: "act.log" });
 
-  expect(result).toStrictEqual([expect.objectContaining({ status: 0 })]);
+  expect(result).toStrictEqual([
+    expect.objectContaining({ status: 0 }),
+    expect.objectContaining({ status: 0 }),
+    expect.objectContaining({ status: 0 }),
+  ]);
 });
