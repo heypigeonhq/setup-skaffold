@@ -133,6 +133,12 @@ jobs:
 
         name: Release Please
 
+        needs:
+            - check-commit
+            - check-format
+            - check-functionality
+            - check-style
+
         permissions:
             contents: write
 
