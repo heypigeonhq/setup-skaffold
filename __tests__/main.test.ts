@@ -16,7 +16,10 @@ beforeEach(async () => {
           },
           {
             dest: "action.yaml",
-            src: path.join(__dirname, "..", "action.yaml"),
+            // TODO: use the real action.yaml once #1988 has been merged and
+            // released.
+            // https://github.com/nektos/act/pull/1988
+            src: path.join(__dirname, "action.yaml"),
           },
           {
             dest: "dist",
@@ -37,7 +40,11 @@ afterEach(async () => {
 test("it works", async () => {
   const act = new Act(github.repo.getPath("setupSkaffold"));
 
-  const result = await act.runEvent("push");
+  const result = await act.runEvent("push", { logFile: "act.log" });
 
-  expect(result).toStrictEqual([expect.objectContaining({ status: 0 })]);
+  expect(result).toStrictEqual([
+    expect.objectContaining({ status: 0 }),
+    expect.objectContaining({ status: 0 }),
+    expect.objectContaining({ status: 0 }),
+  ]);
 });
