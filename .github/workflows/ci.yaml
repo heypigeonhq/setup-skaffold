@@ -127,3 +127,23 @@ jobs:
             - name: Check style
 
               run: npm run eslint:check
+
+    release-please:
+        if: ${{ github.ref == 'refs/heads/main' }}
+
+        name: Release Please
+
+        permissions:
+            contents: write
+
+            pull-requests: write
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: google-github-actions/release-please-action@v3.7.11
+
+              with:
+                  package-name: setup-skaffold-action
+
+                  release-type: node
