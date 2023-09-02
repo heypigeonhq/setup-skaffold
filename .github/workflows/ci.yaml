@@ -87,11 +87,13 @@ jobs:
 
               run: npm install
 
-            - name: Check format
+            - name: Check functionality
 
               run: npm test
 
-            - uses: actions/upload-artifact@v3.1.2
+            - if: ${{ !cancelled() }}
+
+              uses: actions/upload-artifact@v3.1.2
 
               with:
                   name: act.log
