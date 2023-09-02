@@ -16,7 +16,10 @@ beforeEach(async () => {
           },
           {
             dest: "action.yaml",
-            src: path.join(__dirname, "..", "action.yaml"),
+            // TODO: use the real action.yaml once #1988 has been merged and
+            // released.
+            // https://github.com/nektos/act/pull/1988
+            src: path.join(__dirname, "action.yaml"),
           },
           {
             dest: "dist",
