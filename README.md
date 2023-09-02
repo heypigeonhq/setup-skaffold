@@ -4,7 +4,7 @@ GitHub Action for installing Skaffold.
 
 ## Features
 
-- Installs Skaffold on thehost
+- Installs Skaffold on the host
 - Supports installing a specific version of Skaffold
 
 ## Usage
