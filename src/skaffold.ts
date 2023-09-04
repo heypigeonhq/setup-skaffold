@@ -91,9 +91,9 @@ export function getBinaryURL(version: string): string {
  * Get the version of Skaffold.
  *
  * If the version requested is "latest" then the most recent released version
- * of K3s will be returned. Otherwise, return `requestedVersion`.
+ * of Skaffold will be returned. Otherwise, return `requestedVersion`.
  *
- * @param requestedVersion version of K3s requested
+ * @param requestedVersion version of Skaffold requested
  */
 export async function getVersion(requestedVersion: string): Promise<string> {
   let version = requestedVersion;
