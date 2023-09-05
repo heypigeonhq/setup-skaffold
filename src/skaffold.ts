@@ -1,64 +1,88 @@
 import crypto from "crypto";
 import fs from "fs";
 import fsPromises from "fs/promises";
-import os from "os";
-import path from "path";
 import streamPromises from "stream/promises";
 
 import * as toolCache from "@actions/tool-cache";
 
 import * as github from "./github";
 import * as host from "./host";
-import Binary from "./skaffold/Binary";
+
+const repo = "GoogleContainerTools/skaffold";
 
 /**
- * Fetch the Skaffold binary for the given version from either the local cache
- * or the GitHub release.
+ * Fetch the Skaffold binary for the given version.
  *
- * @param version version of Skaffold to fetch
+ * @param version version of the Skaffold release archive to fetch
  */
-export async function fetchBinary(version: string): Promise<Binary> {
+export async function fetch(version: string): Promise<string> {
+  const binaryPath = await fetchBinary(version);
+
   const binaryFilename = getBinaryFilename();
 
-  const cachePath = toolCache.find("skaffold", version, os.arch());
+  const checksumFile = await fetchChecksum(version);
 
-  const checksumFilename = `${binaryFilename}.sha256`;
+  const checksumHash = await createChecksumHash(binaryPath);
 
-  let binaryPath = path.join(cachePath, binaryFilename);
+  const checksum = `${checksumHash}  ${binaryFilename}`;
 
-  let checksumPath = path.join(cachePath, checksumFilename);
+  const checksums = await fsPromises.readFile(checksumFile, "utf8");
 
-  if (!cachePath) {
-    const binaryURL = getBinaryURL(version);
-
-    binaryPath = await toolCache.downloadTool(binaryURL);
-
-    checksumPath = await toolCache.downloadTool(`${binaryURL}.sha256`);
-
-    await toolCache.cacheFile(
-      binaryPath,
-      binaryFilename,
-      "skaffold",
-      version,
-      host.getArch(),
-    );
-
-    await toolCache.cacheFile(
-      checksumPath,
-      checksumFilename,
-      "skaffold",
-      version,
-      host.getArch(),
+  if (!checksums.includes(checksum)) {
+    throw new Error(
+      `Failed to fetch Skaffold v${version}: unexpected checksum for ${binaryFilename}`,
     );
   }
 
-  const checksum = await fsPromises.readFile(checksumPath, "utf8");
+  return binaryPath;
+}
 
-  return {
-    checksum: checksum.trim(),
-    filename: binaryFilename,
-    path: binaryPath,
-  } as Binary;
+async function fetchBinary(version: string): Promise<string> {
+  return await fetchTool("skaffoldBinary", version, getBinaryFilename());
+}
+
+async function fetchChecksum(version: string): Promise<string> {
+  const filename = `${getBinaryFilename()}.sha256`;
+
+  return await fetchTool("skaffoldChecksum", version, filename);
+}
+
+async function fetchTool(
+  toolName: string,
+  version: string,
+  filename: string,
+): Promise<string> {
+  const arch = host.getArch();
+
+  let cachePath = toolCache.find(toolName, version, arch);
+
+  if (!cachePath) {
+    const url = `https://github.com/${repo}/releases/download/v${version}/${filename}`;
+
+    const filePath = await toolCache.downloadTool(url);
+
+    cachePath = await toolCache.cacheFile(
+      filePath,
+      filename,
+      toolName,
+      version,
+      arch,
+    );
+  }
+
+  return `${cachePath}/${filename}`;
+}
+
+async function createChecksumHash(filePath: string): Promise<string> {
+  const hash = crypto.createHash("sha256");
+
+  const fileStream = fs.createReadStream(filePath);
+
+  fileStream.pipe(hash);
+
+  await streamPromises.finished(fileStream);
+
+  return hash.digest("hex");
 }
 
 /**
@@ -84,7 +108,7 @@ export function getBinaryFilename(): string {
 export function getBinaryURL(version: string): string {
   const filename = getBinaryFilename();
 
-  return `https://github.com/GoogleContainerTools/skaffold/releases/download/v${version}/${filename}`;
+  return `https://github.com/${repo}/releases/download/v${version}/${filename}`;
 }
 
 /**
@@ -99,9 +123,7 @@ export async function getVersion(requestedVersion: string): Promise<string> {
   let version = requestedVersion;
 
   if (version === "latest") {
-    const release = await github.getLatestRelease(
-      "GoogleContainerTools/skaffold",
-    );
+    const release = await github.getLatestRelease(repo);
 
     version = release.tagName.replace(/^v/, "");
   }
@@ -115,32 +137,13 @@ export async function getVersion(requestedVersion: string): Promise<string> {
  * This will copy the binary to `/usr/local/bin/skaffold` and set the
  * permissions so that it is executable.
  *
- * @param binary binary to install
+ * @param binaryPath path to the Skaffold binary
  */
-export async function installBinary(binary: Binary): Promise<void> {
-  await fsPromises.chmod(binary.path, 0o500);
+export async function install(binaryPath: string): Promise<string> {
+  const installPath = "/usr/local/bin/skaffold";
 
-  await fsPromises.copyFile(
-    binary.path,
-    path.join("/usr/local/bin", "skaffold"),
-  );
-}
+  await fsPromises.chmod(binaryPath, 0o500);
+  await fsPromises.copyFile(binaryPath, installPath);
 
-/**
- * Verify the checksum of the Skaffold binary.
- *
- * @param binary binary to verify
- */
-export async function verifyBinary(binary: Binary): Promise<boolean> {
-  const hash = crypto.createHash("sha256");
-
-  const binaryStream = fs.createReadStream(binary.path);
-
-  binaryStream.pipe(hash);
-
-  await streamPromises.finished(binaryStream);
-
-  const expectedChecksum = `${hash.digest("hex")}  ${binary.filename}`;
-
-  return expectedChecksum === binary.checksum;
+  return installPath;
 }
