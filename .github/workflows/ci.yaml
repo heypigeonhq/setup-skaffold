@@ -15,7 +15,7 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - uses: actions/cache@v3.3.1
+            - uses: actions/cache@v3.3.2
 
               with:
                   key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
@@ -43,7 +43,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4.0.0
 
-            - uses: actions/cache@v3.3.1
+            - uses: actions/cache@v3.3.2
 
               with:
                   key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
@@ -71,7 +71,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4.0.0
 
-            - uses: actions/cache@v3.3.1
+            - uses: actions/cache@v3.3.2
 
               with:
                   key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
@@ -108,7 +108,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4.0.0
 
-            - uses: actions/cache@v3.3.1
+            - uses: actions/cache@v3.3.2
 
               with:
                   key: ${{ github.job }}-${{ hashFiles('package-lock.json') }}
