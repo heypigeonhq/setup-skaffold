@@ -119,11 +119,14 @@ export function getBinaryURL(version: string): string {
  *
  * @param requestedVersion version of Skaffold requested
  */
-export async function getVersion(requestedVersion: string): Promise<string> {
+export async function getVersion(
+  requestedVersion: string,
+  token: string,
+): Promise<string> {
   let version = requestedVersion;
 
   if (version === "latest") {
-    const release = await github.getLatestRelease(repo);
+    const release = await github.getLatestRelease(repo, token);
 
     version = release.tagName.replace(/^v/, "");
   }
