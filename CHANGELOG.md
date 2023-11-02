@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/heypigeonhq/setup-skaffold/compare/v1.0.1...v1.1.0) (2023-11-02)
+
+
+### Features
+
+* use GitHub token when calling API ([#60](https://github.com/heypigeonhq/setup-skaffold/issues/60)) ([488d0dc](https://github.com/heypigeonhq/setup-skaffold/commit/488d0dcb56fb77c957a2ef99c3973160bfcc3420))
+
 ## [1.0.1](https://github.com/heypigeonhq/setup-skaffold/compare/v1.0.0...v1.0.1) (2023-09-12)
 
 
