@@ -6,6 +6,11 @@ branding:
 description: Install Skaffold
 
 inputs:
+    github-token:
+        description: GitHub token
+
+        required: false
+
     version:
         default: latest
 
