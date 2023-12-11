@@ -1,5 +1,5 @@
 {
-  "name": "setup-skaffold-action",
+  "name": "setup-skaffold",
   "private": true,
   "version": "1.1.0",
   "dependencies": {
