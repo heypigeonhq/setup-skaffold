@@ -4,7 +4,13 @@
   "packageRules": [
     {
       "automerge": true,
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "automerge": true,
       "matchDepTypes": ["devDependencies"],
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"]
     }
   ]
