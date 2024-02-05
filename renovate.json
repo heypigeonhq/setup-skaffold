@@ -5,13 +5,15 @@
     {
       "automerge": true,
       "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "platformAutomerge": true
     },
     {
       "automerge": true,
       "matchDepTypes": ["devDependencies"],
       "matchManagers": ["npm"],
-      "matchUpdateTypes": ["minor", "patch"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "platformAutomerge": true
     }
   ]
 }
