@@ -8,8 +8,8 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.0.0",
-    "@commitlint/config-conventional": "^18.0.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@jest/types": "^29.6.3",
     "@kie/act-js": "^2.3.0",
     "@kie/mock-github": "^2.0.0",
