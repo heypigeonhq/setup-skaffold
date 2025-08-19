@@ -10,10 +10,10 @@
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
-    "@jest/types": "^29.6.3",
+    "@jest/types": "^30.0.0",
     "@kie/act-js": "^2.3.0",
     "@kie/mock-github": "^2.0.0",
-    "@types/jest": "^29.5.4",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@vercel/ncc": "^0.38.0",
@@ -21,7 +21,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.0.0",
-    "jest": "^29.6.4",
+    "jest": "^30.0.0",
     "prettier": "^3.0.3",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
